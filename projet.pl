@@ -1,3 +1,5 @@
+/*Commentaire !*/
+
 /*
 *Projet-Subsomption structurelle
 *Un algorithme de subsomption structurelle pour la logique
