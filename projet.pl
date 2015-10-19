@@ -50,17 +50,23 @@ subS1(C,D):-subs(C,Z),Z\==D,subS1(Z,D).
 /*Subsomption en exercice 2.4
 * en utilisant la fonction not_member, teste la condition que Z ne soit pas dans L
 */
-subsS(C,C,L):-not_member(C,L). 
+subsS(C,C,_). 
 subsS(C,D,_):-subs(C,D). 
+
+subsS(C,and(E,F),L):-subs(C,Y),subs(C,Z),Y\==E,Z\==F,not_member(Y,L),not_member(Z,L),subsS(Y,E,[Y|L]),subsS(Z,F,[Z|L]).
+
 subsS(C,D,L):-subs(C,Z),Z\==D,not_member(Z,L),subsS(Z,D,[Z|L]).
-subsS(C,D):-subsS(C,D,[]).
+ 
 /*******************************************************************************/
 /*Intersection en exercice 3
 *
 */
-subsS(C,and(B,D)):-subsS(C,B), subsS(C,D). 
+%subsS(C,and(E,F)):-subsS(C,E),subsS(C,F).
 
-subsS(and(B,D),C):-subsS(B,C), subsS(D,C). 
+
+
+subsS(C,D):-subsS(C,D,[]).
+
 
 %Redondant : subsS(and(B,D),and(E,F)):-subsS(B,E), subsS(B,F),subsS(D,E), subsS(D,F). 
 /*Quantification existentielle
