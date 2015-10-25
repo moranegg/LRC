@@ -116,7 +116,7 @@ instR(princesse, aMaitre, marie).
 		%subsS(and(A,B),C,L):-subs(and(_,Z),C),subs(and(X,_),C),subsS(Z,A,L),subsS(X,B,L).
 
 /*******************************************************************************/
-/*Gestion des roles en exercice 4
+/*Gestion des rôles en exercice 4
 *   Traite les requêtes all uniquement.
 */  %	
 	%Gère les cas A subs VR.C -> A subs VR.D si D subs C
@@ -128,42 +128,18 @@ instR(princesse, aMaitre, marie).
 
 %Redondant : subsS(and(B,D),and(E,F)):-subsS(B,E), subsS(B,F),subsS(D,E), subsS(D,F). 
 
+%traitement des instances
+%inst(I,C):- subs(C,Z),Z\==C, inst(I,D).
 
 
 
-/*exercice 4.3 subs(and(and(carnivore,animal)herbivore),nothing)
-=> false, car le preogramme ne g�re pas le and(and(,))*/
 
 /*Exercice 4.5 Quantification existentielle
-some(R). Il n'est pas n�cessaire d'�crire des regles pour some(R), car le concept  
-n'a pas d'interactions avec d'autres concepts */
-
-/*Exercice 4.6
-subsS(lion, X) - felin, mammifere, animal, etreVivant, carnivore,predateur
-all(mange, animal)=> all(mange, "tous les animaux"), some(mange)
-=> nous avons bien toutes ces solutins avec doublons et une erreur "out of local satck" pour le traitement de "and"
-
-subsS(X,predateur)- predateur, carnivore, lion 
-=> nous avons toutes ces solutions et all(mange, animal)
- */
- 
-/******************************************************************************/
+some(R).*/
 
 /*Exercice 5*/
-/* Il est complet quand toutes les déductions sémantiques peuvent se dériver dans le système. 
-On parle de théorème de complétude quand il existe un système de déduction fidèle qui est complet 
-(le système de déduction doit être raisonnable, c’est-à-dire que l'ensemble des preuves dans le système doit être récursif).
+/* Il est complet quand toutes les déductions sémantiques peuvent se dériver dans le système. On parle de théorème de complétude quand il existe un système de déduction fidèle qui est complet (le système de déduction doit être raisonnable, c’est-à-dire que l'ensemble des preuves dans le système doit être récursif).
 par exemple le chat qui mange les animaux mais il n'est pas carnivore, car ce n'était pas défini dans notre T-box
 */
-/*******************************************************************************/
-/*gestion des instances*/
-instT(I,C):- inst(I,C).
-%en utilisant la subsomption structurelle
-instT(I,D):- inst(I,C), subsS(C,D).
-%Il existe R si la relation instR est defini
-instT(I,some(R)):- instR(I,R,_).
-/*******************************************************************************/
-
-
 
 
