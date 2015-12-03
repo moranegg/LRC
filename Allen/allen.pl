@@ -1,30 +1,64 @@
+/*Projet LRC-TME3*/
+/*Manipulation sur les listes*/
+/* Auteurs: Arthur Ramolet et Morane Gruenpeter*/
+%Exercice1.1
 :-include(tme8definitions).
 :-include(tme8allen).
 
+%1.2
+/*L2 contient la liste des relations transposees a partir de L1  */
+%condition d'arret les deux listes sont vides
 transposeListe([],[]).
+%verification si l'element T1 est bien transpose de T2 puis recursivement sur le reste de la liste
 transposeListe([T1|Q1],[T2|Q2]):-transpose(T1,T2),transposeListe(Q1,Q2).
 
-
+/*L2 contient la liste des relations symetriques a partir de L1 */
+%condition d'arret les deux listes sont vides
 symetrieListe([],[]).
+%verification si l'element T1 est bien symetrique de T2 puis recursivement sur le reste de la liste
 symetrieListe([T1|Q1],[T2|Q2]):-symetrie(T1,T2),symetrieListe(Q1,Q2).
 
+%1.3
+/*Le predicat compose: L est la liste des relations que l'on peut obtenir par composition des relations R1 et R2, 
+en utilisant le predicat compositionBase defini en tm8definitions.pl qui represente le tableau de composition
+(dans tout les cas on trie la liste) */
 compose(R,=,[R]).
 compose(=,R,[R]).
+%si la relation existe dans le tableau 
 compose(R1, R2, L):-compositionBase(R1 , R2, S),sort(S,L).
+%si les relations transposees de R1 ont une relation de composition avec R2
 compose(R1, R2, L):-transpose(R2, X), transpose(R1, Y), compositionBase(X, Y, Z), transposeListe(Z,S),sort(S,L).
+%si les relations symetriques de R1 ont une relation de composition avec R2
 compose(R1, R2, L):-symetrie(R1, X), symetrie(R2, Y), compositionBase(X, Y, Z), symetrieListe(Z,S),sort(S,L).
+%Combinaison de symetrie et de transposee
 compose(R1, R2, L):-symetrie(R1, X), symetrie(R2, Y),transpose(X, B), transpose(Y, A), compositionBase(A, B, Z), transposeListe(Z,C),symetrieListe(C,S),sort(S,L).
 
+%1.4
+/*L est la liste des relations en composant la liste des relations  LR1 avec LR2.
+En utilisant un predicat intermediair compositionListeD 
+*/
 compositionListeD(_,[],[]).
+%on applique à chaque relation X le predicat compose avec T la tete de la list LR
 compositionListeD(X, [T|Q], L):- compose(X,T,R1), compositionListeD(X,Q,R2), union(R1,R2,S),sort(S,L).
-
+%pour chaque relation T on applique compositionListeD ci-dessus, puis recursivement sur tous les autres relations dans la liste LR1
 compositionListe([],_,[]).
 compositionListe([T|Q],R2,L):-compositionListeD(T,R2,L1),compositionListe(Q,R2,L2),union(L1,L2,S),sort(S,L).
 
+%Exercice2
+%2.2
+/*Le predicat creation graphe prend une liste de relations L et ajoute recursivement 
+chaque relation au graphe G*/
 creationGraphe([], ([],[])).
 creationGraphe([T|Q], G):-creationGraphe(Q,G1), ajouter(T,G1, G).
 
-%Question 3
+%2.3
+/**/
 %creationGraphe([rel(s,l,[o,m]),rel(s,r,[<,m,mt,>])],G),write(G).
 %[l,s,r],[rel(s,l,[o,m]),rel(r,s,[>,mt,m,<]),rel(r,l,[<,=,>,d,e,mt,ot,s,st])]
+
+
+%2.4
+%2.5
+%2.6
+
 
