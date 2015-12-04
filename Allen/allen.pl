@@ -52,13 +52,58 @@ creationGraphe([], ([],[])).
 creationGraphe([T|Q], G):-creationGraphe(Q,G1), ajouter(T,G1, G).
 
 %2.3
-/**/
-%creationGraphe([rel(s,l,[o,m]),rel(s,r,[<,m,mt,>])],G),write(G).
-%[l,s,r],[rel(s,l,[o,m]),rel(r,s,[>,mt,m,<]),rel(r,l,[<,=,>,d,e,mt,ot,s,st])]
+/*interupt= instant ou je touche l'interupteur
+lightOn= temps pendant lequel la lampe est allumee
+jhonIn= temps pendant lequel Jhon est dans la piece
+La relation r1 entre interupt et lightOn est (o,m)
+La relation r2 entre lightOn et JhonIn est (<,m,mt,>)
+Ci dessous la creationGraphe a faire afin de resoudre cet exemple
+*/
+ecrireGraphe1:- creationGraphe([rel(interupt,lightOn,[o,m]),rel(interupt,jhonIn,[<,m,mt,>])],G),
+				write(G),
+				fail.
+ecrireGraphe1.
+g1:- creationGraphe([rel(interupt,lightOn,[o,m]),rel(interupt,jhonIn,[<,m,mt,>])],G).
+/* Le graphe qui correspond:
+[lightOn,interupt,jhonIn],
+[rel(interupt,lightOn,[o,m]),
+rel(jhonIn,interupt,[>,mt,m,<]),
+rel(jhonIn,lightOn,[<,=,>,d,e,mt,ot,s,st])]
+*/
+%avec la contrainte que jhon etait dans la piece lorsque la lumiere a ete allume
 
+ecrireGraphe2:-creationGraphe([rel(interupt,lightOn,[o,m]),rel(interupt,jhonIn,[<,m,mt,>]),rel(lightOn,jhonIn,[d,o,s])],G),
+				write(G),
+				fail.
+ecrireGraphe2.
 
 %2.4
+/*
+L'exrecice du petite dejeuner
+ij:Alfred lit son journal
+id: Alfred prend son petit dejeuner
+ic: Alfred boit son cafe
+ip: Alfred se promene
+*/
+petitDej:-creationGraphe([rel(ij,id,[d,dt,e,et,s,st,ot,o,=]),rel(ij,ic,[e,et,=]),rel(id,ip,[<,m])],G),
+				write(G),
+				fail.
+petitDej.
 %2.5
+/*Le predicat affiche, affiche les relations pour lesquelles intervient l'intervalle I  */
+/*creationGraphe([], ([],[])).
+creationGraphe([T|Q], G):-creationGraphe(Q,G1), ajouter(T,G1, G).
+*/
+%affiche(G,I):-(([],[]),_).
+affiche(G,I):- write(L1),
+			fail.
+affiche.
+%G est compose de deux listes: les intervalles et les relations
+%afficheI([],_).
+%afficheI([T|Q],I):- T=I, affiche(Q,I).
+
+
+
 %2.6
 
 
